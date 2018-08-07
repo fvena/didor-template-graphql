@@ -1,0 +1,9 @@
+mutation {
+  user: createRole(data: { name: BASIC }) {
+    id
+  }
+
+  admin: createRole(data: { name: ADVANCED }) {
+    id
+  }
+}

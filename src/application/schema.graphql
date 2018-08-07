@@ -1,0 +1,52 @@
+# import Post, User, Role, UserRole, AvailableRoles from "../database/prisma.graphql"
+type AuthPayload {
+  token: String!
+  user: User!
+  roles: [UserRole!]!
+}
+
+type SignPayload {
+  user: User!
+  roles: [UserRole!]!
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  inviteAccepted: Boolean!
+  emailConfirmed: Boolean!
+  lastLogin: DateTime
+  joinedAt: DateTime!
+  roles: [UserRole!]!
+  posts: [Post!]!
+}
+
+type Query {
+  # Auth
+  currentUser: User
+
+  # Roles
+  posts: [Post!]!
+}
+
+type Mutation {
+  # Auth
+  signup(email: String!, name: String!, password: String!): SignPayload!
+  signupByInvite(email: String!, inviteToken: String!, password: String!, name: String!): SignPayload!
+  confirmEmail(email: String!, emailConfirmToken: String!): SignPayload!
+  login(email: String!, password: String!): AuthPayload!
+  inviteUser(email: String!): ID!
+  changePassword(oldPassword: String!, newPassword: String!): ID!
+  updateCurrentUser(email: String, name: String): User
+  triggerPasswordReset(email: String!): Boolean!
+  passwordReset(email: String!, resetToken: String!, password: String!): ID!
+
+  # Roles
+  createRole(name: AvailableRoles!): Role!
+  assignRole(role: AvailableRoles!, assigneeEmail: String!): UserRole!
+
+  # Post
+  createPost(title: String!, content: String!): Post!
+  updatePost(id: ID!, title: String!, content: String!): Post!
+}

@@ -1,0 +1,42 @@
+type User {
+  id: ID! @unique
+  email: String! @unique
+  password: String!
+  name: String!
+  inviteToken: String
+  inviteAccepted: Boolean! @default(value: "true")
+  emailConfirmed: Boolean! @default(value: "true")
+  emailConfirmToken: String
+  resetToken: String
+  resetExpires: DateTime
+  lastLogin: DateTime
+  joinedAt: DateTime!
+  roles: [UserRole!]! @relation(name: "RolesByUser" onDelete: CASCADE)
+  posts: [Post!]!
+}
+
+type Post {
+  id: ID! @unique
+  title: String!
+  content: String!
+  createdAt: DateTime!
+  user: User!
+}
+
+type UserRole {
+  id: ID! @unique
+  user: User! @relation(name: "RolesByUser")
+  role: Role! @relation(name: "UserByRole")
+}
+
+type Role {
+  id: ID! @unique
+  name: AvailableRoles! @unique
+  users: [UserRole!]! @relation(name: "UserByRole" onDelete: CASCADE)
+}
+
+enum AvailableRoles {
+  BASIC
+  ADVANCED
+  KRATOS
+}

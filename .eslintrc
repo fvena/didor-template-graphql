@@ -1,0 +1,24 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "import",
+    "jest"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:jest/recommended"
+  ],
+  "rules": {
+    "no-return-await": 0,
+    "jest/no-focused-tests": 2,
+    "jest/no-identical-title": 2
+  }
+}
